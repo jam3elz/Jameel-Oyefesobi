@@ -1,125 +1,275 @@
-"use client"
+"use client";
+import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 
-import { motion } from "framer-motion"
+const skills = [
+  { category: "Data Science", items: ["Python", "R", "SQL", "Tableau", "Power BI"], icon: "📊" },
+  { category: "Machine Learning", items: ["Predictive Analysis", "Modeling", "Scikit-learn"], icon: "🤖" },
+  { category: "Tools", items: ["Excel", "MySQL", "Data Visualization"], icon: "🛠️" },
+];
 
-export const dynamic = 'force-dynamic'
+const projects = [
+  {
+    title: "SkyConnect Airline Performance Analysis",
+    description: "Comprehensive analysis of airline operational performance, including on-time arrival rates, revenue optimization strategies, and customer satisfaction metrics.",
+    tags: ["Python", "Data Analysis", "Visualization"],
+    download: "/skyconnect-project.pptx"
+  },
+  {
+    title: "Customer Segmentation Analysis",
+    description: "Machine learning-driven customer segmentation for targeted marketing campaigns using clustering algorithms.",
+    tags: ["Python", "Scikit-learn", "Clustering"]
+  },
+  {
+    title: "Sales Forecasting Model",
+    description: "Predictive model for retail sales forecasting using time series analysis and regression techniques.",
+    tags: ["Python", "Time Series", "Forecasting"]
+  }
+];
+
+const experience = [
+  {
+    role: "Data Analyst",
+    company: "Tech Solutions Inc.",
+    period: "2022 - Present",
+    description: "Analyzing large datasets to drive business insights and improve operational efficiency."
+  },
+  {
+    role: "Junior Data Scientist",
+    company: "DataCorp",
+    period: "2020 - 2022",
+    description: "Built predictive models and contributed to machine learning projects."
+  }
+];
+
+const education = [
+  {
+    degree: "Bachelor of Science in Data Science",
+    school: "University of Technology",
+    year: "2020"
+  }
+];
 
 export default function Home() {
+  const [activeSection, setActiveSection] = useState("");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["home", "about", "skills", "projects", "experience", "education", "contact"];
+      const scrollPos = window.scrollY + 100;
+      
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const { offsetTop, offsetHeight } = element;
+          if (scrollPos >= offsetTop && scrollPos < offsetTop + offsetHeight) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollTo = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <main className="px-6 md:px-20 py-10 space-y-24">
-
-      {/* HERO */}
-      <section className="text-center space-y-6">
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-4xl md:text-6xl font-bold"
-        >
-          Jameel Mayowa Oyefesobi
-        </motion.h1>
-
-        <p className="text-lg text-gray-400">
-          Data Analyst • Business Intelligence • Machine Learning
-        </p>
-
-        <p className="max-w-xl mx-auto text-gray-500">
-          Turning raw data into insights that drive real business decisions.
-        </p>
-      </section>
-
-      {/* ABOUT */}
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">About Me</h2>
-        <p className="text-gray-400 max-w-2xl">
-          I am a data analyst based in Lagos, Nigeria, specializing in transforming
-          complex datasets into actionable insights using Excel, Power BI, MySQL,
-          and Python. I bring real-world experience across healthcare, retail tech,
-          and crypto trading.
-        </p>
-      </section>
-
-      {/* EXPERIENCE */}
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">Experience</h2>
-        <ul className="space-y-3 text-gray-400">
-          <li>Assistant Pharmacist — Ifako-Ijaye LCDA (2015–2016)</li>
-          <li>Tech Store Attendant — TM Communications (2017–2021)</li>
-          <li>Virtual Assistant — Akita Agency Inc. (2014–2016)</li>
-          <li>OTC Crypto Trader — Remitano & Binance (2018–Present)</li>
-        </ul>
-      </section>
-
-      {/* PROJECT */}
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">Featured Project</h2>
-
-        <div className="bg-gray-900 p-6 rounded-xl space-y-4">
-          <h3 className="text-xl font-bold">
-            SkyConnect Airline Performance Analysis
-          </h3>
-
-          <p className="text-gray-400">
-            A data analytics project analyzing airline performance, delays,
-            and revenue trends (2022–2024).
-          </p>
-
-          <p className="text-gray-500 text-sm">
-            Tools: MySQL • Power BI • Excel • Python
-          </p>
-
-          <ul className="text-gray-400 list-disc ml-5">
-            <li>Identified delay patterns affecting operations</li>
-            <li>Discovered revenue instability across years</li>
-            <li>Analyzed customer behavior and loyalty gaps</li>
-            <li>Provided strategic recommendations for growth</li>
-          </ul>
+    <div className="min-h-screen bg-gray-50">
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-sm shadow-sm z-50">
+        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+          <div className="text-xl font-bold text-gray-800">JM</div>
+          <div className="hidden md:flex gap-6">
+            {["home", "about", "skills", "projects", "experience", "education", "contact"].map((item) => (
+              <button
+                key={item}
+                onClick={() => scrollTo(item)}
+                className={`text-sm capitalize hover:text-blue-600 transition ${activeSection === item ? "text-blue-600 font-semibold" : "text-gray-600"}`}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
         </div>
-      </section>
+      </nav>
 
-      {/* SKILLS */}
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">Skills</h2>
-
-        <div className="grid md:grid-cols-3 gap-6 text-gray-400">
-          <div>
-            <h3 className="font-bold">Data Analysis</h3>
-            <p>Excel, Power BI, MySQL, Python</p>
-          </div>
-
-          <div>
-            <h3 className="font-bold">Machine Learning</h3>
-            <p>Predictive Analysis, Modeling</p>
-          </div>
-
-          <div>
-            <h3 className="font-bold">Other</h3>
-            <p>Data Cleaning, Visualization</p>
+      {/* Hero Section */}
+      <section id="home" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 pt-20">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <div className="flex flex-col md:flex-row items-center gap-8 justify-center">
+            <div className="relative">
+              <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-white shadow-xl">
+                <Image 
+                  src="/photo.PNG" 
+                  alt="Jameel Mayowa Oyefesobi" 
+                  width={160} 
+                  height={160}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            <div className="text-center md:text-left">
+              <h1 className="text-5xl font-bold text-gray-800 mb-2">Jameel Mayowa Oyefesobi</h1>
+              <p className="text-2xl text-blue-600 mb-4">Data Scientist & Analyst</p>
+              <p className="text-gray-600 max-w-lg">
+                Transforming complex data into actionable insights. Specializing in machine learning, predictive analytics, and data visualization.
+              </p>
+              <div className="mt-6 flex gap-4 justify-center md:justify-start">
+                <button onClick={() => scrollTo("projects")} className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition shadow-lg">
+                  View My Work
+                </button>
+                <button onClick={() => scrollTo("contact")} className="px-6 py-3 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition">
+                  Contact Me
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* EDUCATION */}
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">Education</h2>
-
-        <p className="text-gray-400">
-          Moshood Abiola Polytechnic — OND Pharmaceutical Technology (2011–2014)
-        </p>
-
-        <p className="text-gray-400">
-          Tech Studio Academy — Diploma in Data Analysis (expected 2026)
-        </p>
+      {/* About Section */}
+      <section id="about" className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">About Me</h2>
+          <div className="bg-gray-50 rounded-2xl p-8 shadow-sm">
+            <p className="text-gray-600 leading-relaxed">
+              I am a passionate Data Scientist and Analyst with expertise in Python, machine learning, and data visualization. 
+              I have a strong track record of turning raw data into meaningful insights that drive business decisions. 
+              My goal is to leverage data science skills to solve complex problems and create value for organizations.
+            </p>
+          </div>
+        </div>
       </section>
 
-      {/* CONTACT */}
-      <section className="text-center space-y-3">
-        <h2 className="text-2xl font-semibold">Contact</h2>
-
-        <p className="text-gray-400">coolmajor95@gmail.com</p>
-        <p className="text-gray-400">+2347056735416</p>
-        <p className="text-gray-400">Lagos, Nigeria</p>
+      {/* Skills Section */}
+      <section id="skills" className="py-20 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Skills</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {skills.map((skill, index) => (
+              <div key={index} className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
+                <div className="text-3xl mb-4">{skill.icon}</div>
+                <h3 className="text-xl font-semibold text-gray-800 mb-3">{skill.category}</h3>
+                <div className="flex flex-wrap gap-2">
+                  {skill.items.map((item, i) => (
+                    <span key={i} className="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-full">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
-    </main>
-  )
+      {/* Projects Section */}
+      <section id="projects" className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Projects</h2>
+          <div className="space-y-6">
+            {projects.map((project, index) => (
+              <div key={index} className="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition">
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className="text-xl font-semibold text-gray-800">{project.title}</h3>
+                  {project.download && (
+                    <a 
+                      href={project.download} 
+                      download
+                      className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition flex items-center gap-2"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download
+                    </a>
+                  )}
+                </div>
+                <p className="text-gray-600 mb-4">{project.description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {project.tags.map((tag, i) => (
+                    <span key={i} className="px-3 py-1 bg-indigo-100 text-indigo-700 text-sm rounded-full">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Experience Section */}
+      <section id="experience" className="py-20 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Experience</h2>
+          <div className="space-y-6">
+            {experience.map((exp, index) => (
+              <div key={index} className="bg-white rounded-xl p-6 shadow-sm">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-xl font-semibold text-gray-800">{exp.role}</h3>
+                  <span className="text-sm text-gray-500">{exp.period}</span>
+                </div>
+                <p className="text-blue-600 font-medium mb-2">{exp.company}</p>
+                <p className="text-gray-600">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Education Section */}
+      <section id="education" className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Education</h2>
+          <div className="space-y-6">
+            {education.map((edu, index) => (
+              <div key={index} className="bg-gray-50 rounded-xl p-6 shadow-sm">
+                <h3 className="text-xl font-semibold text-gray-800">{edu.degree}</h3>
+                <p className="text-blue-600">{edu.school}</p>
+                <p className="text-gray-500">{edu.year}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20 bg-gray-50">
+        <div className="max-w-2xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Get In Touch</h2>
+          <form className="bg-white rounded-xl p-8 shadow-sm" onSubmit={(e) => e.preventDefault()}>
+            <div className="mb-4">
+              <label className="block text-gray-700 mb-2">Name</label>
+              <input type="text" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition" placeholder="Your Name" />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 mb-2">Email</label>
+              <input type="email" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition" placeholder="your@email.com" />
+            </div>
+            <div className="mb-6">
+              <label className="block text-gray-700 mb-2">Message</label>
+              <textarea rows={4} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition" placeholder="Your message..."></textarea>
+            </div>
+            <button type="submit" className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold">
+              Send Message
+            </button>
+          </form>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-8 bg-gray-800 text-white text-center">
+        <p>© 2024 Jameel Mayowa Oyefesobi. All rights reserved.</p>
+      </footer>
+    </div>
+  );
 }
