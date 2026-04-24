@@ -29,24 +29,41 @@ const projects = [
 
 const experience = [
   {
+    role: "Virtual Assistant",
+    company: "Akita Agency Inc.",
+    period: "2024 – 2026",
+    description: "- Managed emails, data entry, and administrative workflows\n- Supported remote operations and improved task efficiency"
+  },
+  {
     role: "Data Analyst",
     company: "Tech Solutions Inc.",
     period: "2022 - Present",
     description: "Analyzing large datasets to drive business insights and improve operational efficiency."
   },
   {
-    role: "Junior Data Scientist",
-    company: "DataCorp",
-    period: "2020 - 2022",
-    description: "Built predictive models and contributed to machine learning projects."
+    role: "Tech Store Attendant and Data Entry Clerk",
+    company: "TM Communications",
+    period: "2017 – 2021",
+    description: "- Provided technical support and troubleshooting for devices and software issues\n- Assisted customers in resolving product-related problems efficiently\n- Managed sales operations and improved customer satisfaction"
+  },
+  {
+    role: "Assistant Pharmacist",
+    company: "Ifako-Ijaye LCDA",
+    period: "2015 – 2016",
+    description: "- Maintained accurate records and handled sensitive information\n- Provided structured support in a regulated environment"
   }
 ];
 
 const education = [
   {
-    degree: "Bachelor of Science in Data Science",
-    school: "University of Technology",
-    year: "2020"
+    degree: "Diploma Degree in Data Analysis",
+    school: "Tech Studio Academy",
+    year: "2025-2026"
+  },
+  {
+    degree: "OND in Pharmaceutical Technology",
+    school: "Moshood Abiola Polytechnic",
+    year: "2011-2014"
   }
 ];
 
